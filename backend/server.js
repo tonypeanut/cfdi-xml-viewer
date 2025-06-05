@@ -13,7 +13,9 @@ app.use(cors({
      'http://localhost:4200',
      'https://cfdi-xml-viewer.netlify.app/'
   ],
-  credentials: true
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  allowedHeaders: ['Content-Type', 'Authorization']
 }));
 
 app.post('/api/process-xml', upload.array('xmlFiles'), async (req, res) => {
