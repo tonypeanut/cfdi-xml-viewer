@@ -1,0 +1,94 @@
+/* Estilos para las tarjetas */
+.card {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+}
+
+/* Estilos para la tabla */
+table {
+  min-width: 100%;
+}
+
+th {
+  text-align: left;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+tr:nth-child(even) {
+  background-color: #f9fafb;
+}
+
+/* Estilos para la paginación */
+.pagination a {
+  margin: 0 5px;
+  padding: 5px 10px;
+  border: 1px solid #e5e7eb;
+  border-radius: 4px;
+  color: #4b5563;
+  text-decoration: none;
+}
+
+.pagination a:hover {
+  background-color: #f3f4f6;
+}
+
+.pagination .current {
+  background-color: #3b82f6;
+  color: white;
+  border-color: #3b82f6;
+}
+
+tr.detail-row {
+  transition: all 0.3s ease;
+}
+
+tr.detail-row > td {
+  padding: 0;
+}
+
+.detail-content {
+  overflow: hidden;
+  transition: max-height 0.3s ease;
+}
+
+button:hover .trash-icon {
+  transform: scale(1.1);
+  transition: transform 0.2s ease;
+}
+
+/* Estilo para los diálogos de SweetAlert */
+.swal2-popup {
+  font-family: 'Inter', sans-serif;
+  border-radius: 0.5rem;
+}
+
+.swal2-confirm {
+  transition: all 0.2s ease;
+}
+
+.transition-all {
+  transition-property: all;
+}
+
+.duration-300 {
+  transition-duration: 300ms;
+}
+
+.max-h-0 {
+  max-height: 0;
+}
+
+.max-h-\[1000px\] {
+  max-height: 1000px;
+}
+
+/* Animación para el icono de flecha */
+.transform {
+  transform: rotate(180deg);
+}
