@@ -1,12 +1,13 @@
 import { inject, Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Observable, catchError, throwError } from 'rxjs';
+import { environment } from '../../environments/environment.prod';
 
 @Injectable({
   providedIn: 'root'
 })
 export class XmlReaderService {
-  private apiUrl = 'http://localhost:3001/api/process-xml';
+  private apiUrl = `${environment.backendUrl}/api/process-xml`
   private http = inject(HttpClient);
 
   processXmlFiles(files: File[]): Observable<any> {
