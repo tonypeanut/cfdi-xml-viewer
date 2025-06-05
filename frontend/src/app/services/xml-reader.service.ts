@@ -1,14 +1,23 @@
 import { inject, Injectable } from '@angular/core';
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { Observable, catchError, throwError } from 'rxjs';
+import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
+import { Observable, throwError } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 import { environment } from '../../environments/environment.prod';
 
 @Injectable({
   providedIn: 'root'
 })
 export class XmlReaderService {
-  private apiUrl = `${environment.backendUrl}/api/process-xml`
+  private apiUrl = `${environment.backendUrl}/api/process-xml`;
   private http = inject(HttpClient);
+
+  // Headers personalizados para CORS y FormData
+  private getHeaders(): HttpHeaders {
+    return new HttpHeaders({
+      'Accept': 'application/json',
+      // 'Authorization': 'Bearer tu-token' // Si usas autenticación
+    });
+  }
 
   processXmlFiles(files: File[]): Observable<any> {
     if (!files || files.length === 0) {
@@ -20,21 +29,22 @@ export class XmlReaderService {
       formData.append('xmlFiles', file, file.name);
     });
 
-    return this.http.post(this.apiUrl, formData).pipe(
+    return this.http.post(this.apiUrl, formData, {
+      headers: this.getHeaders(),
+      withCredentials: false // Cambia a true si usas cookies
+    }).pipe(
       catchError(this.handleError)
     );
   }
 
   private handleError(error: HttpErrorResponse) {
-    let errorMessage = 'Error desconocido';
+    let errorMessage = 'Error procesando XML';
     if (error.error instanceof ErrorEvent) {
-      // Error del cliente
-      errorMessage = `Error: ${error.error.message}`;
+      errorMessage = `Error del cliente: ${error.error.message}`;
     } else {
-      // Error del servidor
-      errorMessage = `Código: ${error.status}\nMensaje: ${error.message}`;
+      errorMessage = `Error ${error.status}: ${error.error?.message || error.message}`;
     }
-    console.error(errorMessage);
+    console.error('[XmlReaderService]', errorMessage);
     return throwError(() => new Error(errorMessage));
   }
 }
