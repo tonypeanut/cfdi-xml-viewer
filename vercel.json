@@ -2,14 +2,14 @@
   "version": 2,
   "builds": [
     {
-      "src": "backend/server.js",  # Punto de entrada de tu backend
+      "src": "backend/server.js", 
       "use": "@vercel/node"
     }
   ],
   "routes": [
     {
-      "src": "/api/.*",           # Todas las rutas bajo /api
-      "dest": "backend/server.js"  # Redirige al backend
+      "src": "/api/.*",          
+      "dest": "backend/server.js"  
     }
   ]
 }
