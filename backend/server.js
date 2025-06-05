@@ -8,15 +8,14 @@ const app = express();
 const storage = multer.memoryStorage();
 const upload = multer({ storage: storage });
 
-app.use(cors({
-  origin: [
-     'http://localhost:4200',
-     'https://cfdi-xml-viewer.netlify.app/'
-  ],
-  credentials: true,
-  methods: ['GET', 'POST', 'PUT', 'DELETE'],
-  allowedHeaders: ['Content-Type', 'Authorization']
-}));
+
+const corsOptions = {
+  origin: ['http://localhost:4200', 'https://cfdi-xml-viewer.netlify.app'], 
+  credentials: true
+};
+
+app.use(cors(corsOptions));
+app.options('*', cors(corsOptions));
 
 app.post('/api/process-xml', upload.array('xmlFiles'), async (req, res) => {
   if (!req.files || req.files.length === 0) {
