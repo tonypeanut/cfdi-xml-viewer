@@ -9,7 +9,10 @@ const storage = multer.memoryStorage();
 const upload = multer({ storage: storage });
 
 app.use(cors({
-  origin: 'http://localhost:4200', // o usa '*' si solo estás desarrollando
+  origin: [
+     'http://localhost:4200',
+     'https://cfdi-xml-viewer.netlify.app/'
+  ],
   credentials: true
 }));
 
