@@ -3,7 +3,7 @@ const multer = require('multer');
 const { parseCFDI } = require('./services/cfdiParser');
 const cors = require('cors');
 const app = express();
-const port = 3001;
+
 
 const storage = multer.memoryStorage();
 const upload = multer({ storage: storage });
@@ -40,6 +40,7 @@ app.post('/api/process-xml', upload.array('xmlFiles'), async (req, res) => {
   res.json(results);
 });
 
-app.listen(port, () => {
-  console.log(`Server listening on port ${port}`);
+const port = process.env.PORT || 3000;
+module.exports = app.listen(port, () => {
+  console.log(`Server running on port ${port}`);
 });
