@@ -347,6 +347,15 @@
     </div>
   </div>
 
-
+  <!-- Mostrar CFDI no válidos -->
+  <div *ngIf="invalidCfdis.length > 0" class="mt-6 p-4 bg-yellow-50 border-l-4 border-yellow-400">
+    <h3 class="font-medium text-yellow-800">CFDI no válidos ({{ invalidCfdis.length }})</h3>
+    <ul class="mt-2 text-sm text-yellow-700">
+      <li *ngFor="let item of invalidCfdis" class="py-1">
+        <span *ngIf="item.fileName">Archivo: {{ item.fileName }} - </span>
+        {{ item.error?.message || 'CFDI no válido' }}
+      </li>
+    </ul>
+  </div>
 
 </div>

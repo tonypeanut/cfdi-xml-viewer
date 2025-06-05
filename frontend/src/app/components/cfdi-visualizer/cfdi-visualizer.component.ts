@@ -77,17 +77,20 @@ export class CfdiVisualizerComponent {
   }
   
   calculateStats() {
-    const safeData = Array.isArray(this.cfdiData) ? this.cfdiData : [];
+    // Filtra solo los CFDI válidos (sin propiedad 'error')
+    const validCfdis = Array.isArray(this.cfdiData) 
+      ? this.cfdiData.filter(item => !item.error) 
+      : [];
 
     this.stats = {
-      totalCFDIs: safeData.length,
+      totalCFDIs: validCfdis.length, // Solo cuenta los válidos
       totalAmount: 0,
       avgAmount: 0,
       emisores: new Map(),
       tiposComprobante: new Map()
     };
     
-    safeData.forEach(item => {
+    validCfdis.forEach(item => {
       const m = item.data.metadata;
       const e = item.data.emisor;
       
@@ -102,8 +105,9 @@ export class CfdiVisualizerComponent {
       }
     });
     
-    this.stats.avgAmount = this.stats.totalCFDIs > 0 ? 
-      this.stats.totalAmount / this.stats.totalCFDIs : 0;
+    this.stats.avgAmount = this.stats.totalCFDIs > 0 
+      ? this.stats.totalAmount / this.stats.totalCFDIs 
+      : 0;
   }
 
   toggleFilters() {
@@ -124,17 +128,20 @@ export class CfdiVisualizerComponent {
 
   get filteredData() {
     if (!this.cfdiData || !Array.isArray(this.cfdiData)) return [];
+
+    // Filtra primero los CFDI válidos
+    const validData = this.cfdiData.filter(item => !item.error);
     
     // Si hay texto de filtro, usa el sistema antiguo (opcional, puedes eliminarlo si no lo necesitas)
     if (this.filterText) {
-      return this.cfdiData.filter(item => {
+      return validData.filter(item => {
         const value = this.getNestedValue(item, this.selectedField);
         return value?.toString().toLowerCase().includes(this.filterText.toLowerCase());
       });
     }
     
     // Aplicar el nuevo sistema de filtrado
-    return this.cfdiData.filter(item => {
+    return validData.filter(item => {
       // Filtro por UUID
       if (this.filters.uuid && 
           !item.data.complemento?.timbreFiscalDigital?.uuid?.toLowerCase()
@@ -362,15 +369,10 @@ export class CfdiVisualizerComponent {
     }, obj);
   }
 
-  private normalizeDate(dateString: string): Date {
-    if (!dateString) return new Date(NaN); // Fecha inválida
-    
-    // Crear fecha en UTC para evitar problemas de zona horaria
-    const date = new Date(dateString);
-    if (isNaN(date.getTime())) return new Date(NaN); // Fecha inválida
-    
-    // Retornar nueva fecha solo con día, mes y año (hora 00:00:00 local)
-    return new Date(date.getFullYear(), date.getMonth(), date.getDate());
+  get invalidCfdis() {
+    return Array.isArray(this.cfdiData) 
+      ? this.cfdiData.filter(item => item.error)
+      : [];
   }
 
 }

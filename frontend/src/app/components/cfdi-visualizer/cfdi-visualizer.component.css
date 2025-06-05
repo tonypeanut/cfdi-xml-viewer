@@ -92,3 +92,8 @@ button:hover .trash-icon {
 .transform {
   transform: rotate(180deg);
 }
+
+.bg-yellow-50 { background-color: #fefce8; }
+.border-yellow-400 { border-color: #facc15; }
+.text-yellow-800 { color: #92400e; }
+.text-yellow-700 { color: #a16207; }
