@@ -21,9 +21,9 @@ app.use(cors({
 
 app.post('/api/process-xml', upload.array('xmlFiles'), async (req, res) => {
 
-  res.header('Access-Control-Allow-Origin', 'https://cfdi-xml-viewer.netlify.app');
-  res.header('Access-Control-Allow-Methods', 'POST');
-  res.header('Access-Control-Allow-Headers', 'Content-Type');
+  //res.header('Access-Control-Allow-Origin', 'https://cfdi-xml-viewer.netlify.app');
+  //res.header('Access-Control-Allow-Methods', 'POST');
+  //res.header('Access-Control-Allow-Headers', 'Content-Type');
 
   if (!req.files || req.files.length === 0) {
     return res.status(400).json({ error: 'No files uploaded' });
